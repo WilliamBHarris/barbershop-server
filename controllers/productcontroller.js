@@ -2,7 +2,7 @@ const Express = require("express");
 const router = Express.Router();
 let validateJWT = require("../middleware/validate-jwt");
 const { ProductModel, UserModel, ReviewModel } = require("../models/index.js");
-
+// jaylens branch
 router.post("/", validateJWT, async (req, res) => {
   const { date, time } =
     req.body.product;
@@ -97,7 +97,7 @@ router.delete("/:id", validateJWT, async (req, res) => {
     const query = {
       where: {
         id: productId,
-        
+
       },
     };
     await ProductModel.destroy(query);

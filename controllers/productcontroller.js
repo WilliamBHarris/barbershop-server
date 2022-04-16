@@ -90,18 +90,17 @@ router.put("/:id", validateJWT, async (req, res) => {
 });
 
 router.delete("/:id", validateJWT, async (req, res) => {
-  // const userId = req.user.id;
-  const productId = req.params.id;
+  const scheduleId = req.params.id;
 
   try {
     const query = {
       where: {
-        id: productId,
+        id: scheduleId,
         
       },
     };
     await ProductModel.destroy(query);
-    res.status(200).json({ message: "Item was deleted" });
+    res.status(200).json({ message: "Date was deleted" });
   } catch (err) {
     res.status(500).json({ error: err });
   }
@@ -109,11 +108,13 @@ router.delete("/:id", validateJWT, async (req, res) => {
 
 router.get("/:userId/:date", async (req, res) => {
   const id = req.params.userId;
+  const date = req.params.date;
 
   try {
     const product = await ProductModel.findOne({
       where: {
         userId: id,
+        date: date
       },
       include: [
         {
@@ -122,7 +123,7 @@ router.get("/:userId/:date", async (req, res) => {
         { model: ReviewModel },
       ],
     });
-
+    
     res.status(200).json(product);
   } catch (error) {
     res.status(500).json({

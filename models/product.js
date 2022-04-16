@@ -29,13 +29,9 @@ const ProductModel = db.define("product", {
   //   allowNull: true,
   // },
   date: {
-    type: DataTypes.DATE,
+    type: DataTypes.STRING,
     allowNull: false,
   },
-  time: {
-    type: DataTypes.ARRAY(DataTypes.TIME),
-    allowNull: false,
-  }
 
 });
 

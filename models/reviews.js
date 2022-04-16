@@ -8,18 +8,14 @@ const Reviews = db.define("review", {
     primaryKey: true,
     allowNull: false,
   },
-  title: {
-    type: DataTypes.STRING,
-    allowNull: false,
+  time: {
+    type: DataTypes.ARRAY(DataTypes.TIME),
+    allowNull: true,
   },
-  description: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-  userName: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
+  // userName: {
+  //   type: DataTypes.STRING,
+  //   allowNull: false,
+  // },
 });
 
 module.exports = Reviews;

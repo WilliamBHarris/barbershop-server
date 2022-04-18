@@ -9,7 +9,7 @@ const Reviews = db.define("review", {
     allowNull: false,
   },
   time: {
-    type: DataTypes.ARRAY(DataTypes.TIME),
+    type: DataTypes.ARRAY(DataTypes.STRING),
     allowNull: true,
   },
   // userName: {

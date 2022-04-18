@@ -4,13 +4,11 @@ let validateJWT = require("../middleware/validate-jwt");
 const { ReviewModel, UserModel, ProductModel } = require("../models/index.js");
 
 router.post("/:productid", validateJWT, async (req, res) => {
-  const { title, description, userName } = req.body.review;
+  const { time } = req.body.review;
   const productId = req.params.productid;
 
   const reviewEntry = {
-    userName,
-    title,
-    description,
+    time,
     userId: req.user.id,
     productId: productId,
   };
@@ -87,12 +85,12 @@ router.put("/:reviewId", validateJWT, async (req, res) => {
 
 router.delete("/:id", validateJWT, async (req, res) => {
   const userId = req.user.id;
-  const reviewId = req.params.id;
+  const timeId = req.params.id;
 
   try {
     const query = {
       where: {
-        id: reviewId,
+        id: timeId,
       },
     };
     await ReviewModel.destroy(query);

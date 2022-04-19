@@ -9,13 +9,17 @@ const Reviews = db.define("review", {
     allowNull: false,
   },
   time: {
-    type: DataTypes.ARRAY(DataTypes.STRING),
+    type: DataTypes.STRING,
     allowNull: true,
   },
-  // userName: {
-  //   type: DataTypes.STRING,
-  //   allowNull: false,
-  // },
+  booked: {
+    type: DataTypes.BOOLEAN,
+    allowNull: false
+  },
+  userName: {
+    type: DataTypes.STRING,
+    allowNull: true,
+  }
 });
 
 module.exports = Reviews;

@@ -4,12 +4,12 @@ let validateJWT = require("../middleware/validate-jwt");
 const { ProductModel, UserModel, ReviewModel } = require("../models/index.js");
 
 router.post("/", validateJWT, async (req, res) => {
-  const { date, time } =
+  const { date, email } =
     req.body.product;
 
   const productEntry = {
     date,
-    time,
+    email,
     userId: req.user.id,
     productId: req.body.product.productId,
   };
@@ -90,12 +90,12 @@ router.put("/:id", validateJWT, async (req, res) => {
 });
 
 router.delete("/:id", validateJWT, async (req, res) => {
-  const scheduleId = req.params.id;
+  const id = req.params.id;
 
   try {
     const query = {
       where: {
-        id: scheduleId,
+        id: id,
         
       },
     };
@@ -108,13 +108,39 @@ router.delete("/:id", validateJWT, async (req, res) => {
 
 router.get("/:userId/:date", async (req, res) => {
   const id = req.params.userId;
-  const date = req.params.date;
+  const date = req.params.date
 
   try {
     const product = await ProductModel.findOne({
       where: {
         userId: id,
         date: date
+      },
+      include: [
+        {
+          model: UserModel,
+        },
+        { model: ReviewModel },
+      ],
+    });
+    
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(500).json({
+      message: `Failed to fetch post: ${error}`,
+    });
+  }
+});
+
+router.get("/:userId/:email", async (req, res) => {
+  const email = req.params.email;
+  const userId = req.params.userId;
+
+  try {
+    const product = await ProductModel.findOne({
+      where: {
+        userId: userId,
+        email: email,
       },
       include: [
         {

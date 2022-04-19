@@ -8,6 +8,10 @@ const ProductModel = db.define("product", {
     primaryKey: true,
     allowNull: false,
   },
+  email: {
+    type: DataTypes.STRING,  
+    allowNull: false,
+  },
   // image: {
   //   type: DataTypes.STRING,
   //   allowNull: true,

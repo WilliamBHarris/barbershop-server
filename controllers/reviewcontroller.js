@@ -4,13 +4,15 @@ let validateJWT = require("../middleware/validate-jwt");
 const { ReviewModel, UserModel, ProductModel } = require("../models/index.js");
 
 router.post("/:productid", validateJWT, async (req, res) => {
-  const { time } = req.body.review;
+  const { time, booked, userName } = req.body.review;
   const productId = req.params.productid;
 
   const reviewEntry = {
+    userName,
     time,
     userId: req.user.id,
     productId: productId,
+    booked
   };
   try {
     const newReview = await ReviewModel.create(reviewEntry);
@@ -52,15 +54,14 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.put("/:reviewId", validateJWT, async (req, res) => {
-  const { description, title} =
+router.put("/:id", validateJWT, async (req, res) => {
+  const { booked, userName} =
     req.body.review;
-  const reviewId = req.params.reviewId;
-  const userId = req.user.id;
+  const id = req.params.id;
 
   const query = {
     where: {
-      id: reviewId,
+      id: id,
     },
     include: [
       {
@@ -71,8 +72,8 @@ router.put("/:reviewId", validateJWT, async (req, res) => {
   };
 
   const updatedReview = {
-    title: title,
-    description: description,
+    userName: userName,
+    booked: booked,
   };
 
   try {

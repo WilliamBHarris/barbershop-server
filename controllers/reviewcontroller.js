@@ -32,7 +32,7 @@ router.get("/:id", async (req, res) => {
       },
       include: [
         {
-          model: UserModel,
+          model: ProductModel,
         }
       ],
     });
@@ -98,6 +98,29 @@ router.delete("/:id", validateJWT, async (req, res) => {
     res.status(200).json({ message: "Item was deleted" });
   } catch (err) {
     res.status(500).json({ error: err });
+  }
+});
+
+router.get("/:productId", async (req, res) => {
+  const productId = req.params.userId;
+
+  try {
+    const review = await ReviewModel.findOne({
+      where: {
+        userId: productId,
+      },
+      include: [
+        {
+          model: UserModel,
+        }
+      ],
+    });
+
+    res.status(200).json(review);
+  } catch (error) {
+    res.status(500).json({
+      message: `Failed${error}`,
+    });
   }
 });
 

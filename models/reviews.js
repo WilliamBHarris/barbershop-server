@@ -8,6 +8,12 @@ const Reviews = db.define("review", {
     primaryKey: true,
     allowNull: false,
   },
+  productId: {
+    type: DataTypes.UUID,
+    defaultValue: DataTypes.UUIDV4,
+    primaryKey: true,
+    allowNull: false,
+  },
   time: {
     type: DataTypes.STRING,
     allowNull: true,

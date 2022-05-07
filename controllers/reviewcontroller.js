@@ -4,7 +4,7 @@ let validateJWT = require("../middleware/validate-jwt");
 const { ReviewModel, UserModel, ProductModel } = require("../models/index.js");
 
 router.post("/:productid", validateJWT, async (req, res) => {
-  const { time, booked, userName } = req.body.review;
+  const { time, booked, userName, userId } = req.body.review;
   const productId = req.params.productid;
 
   const reviewEntry = {
@@ -12,7 +12,8 @@ router.post("/:productid", validateJWT, async (req, res) => {
     time,
     userId: req.user.id,
     productId: productId,
-    booked
+    booked,
+    userId
   };
   try {
     const newReview = await ReviewModel.create(reviewEntry);
@@ -47,7 +48,14 @@ router.get("/:id", async (req, res) => {
 
 router.get("/", async (req, res) => {
   try {
-    const entries = await ReviewModel.findAll();
+    const query = {
+      include: [
+      {
+        model: UserModel,
+      },
+      { model: ProductModel },
+    ]}
+    const entries = await ReviewModel.findAll(query);
     res.status(200).json(entries);
   } catch (err) {
     res.status(500).json({ error: err });
@@ -55,7 +63,7 @@ router.get("/", async (req, res) => {
 });
 
 router.put("/:id", validateJWT, async (req, res) => {
-  const { booked, userName} =
+  const { booked, userName, userId} =
     req.body.review;
   const id = req.params.id;
 
@@ -74,6 +82,7 @@ router.put("/:id", validateJWT, async (req, res) => {
   const updatedReview = {
     userName: userName,
     booked: booked,
+    userId: userId
   };
 
   try {
